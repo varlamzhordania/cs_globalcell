@@ -29,6 +29,8 @@ ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['*'])
 
 LOCAL_APPS = [
     'account.apps.AccountConfig',
+    'websocket.apps.WebsocketConfig',
+    'call.apps.CallConfig',
 ]
 
 THIRD_PARTY_APPS = [
@@ -36,8 +38,9 @@ THIRD_PARTY_APPS = [
     # 'django_ckeditor_5',
     # 'mptt',
     # 'nested_admin',
-    # 'rest_framework'
-    # 'corsheaders'
+    'rest_framework',
+    'drf_spectacular',
+    'corsheaders',
     # "phonenumber_field",
     # 'hijack',
     # 'hijack.contrib.admin',
@@ -64,7 +67,7 @@ INSTALLED_APPS += THIRD_PARTY_APPS
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # 'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -209,6 +212,7 @@ REST_FRAMEWORK = {
         # 'rest_framework.permissions.IsAuthenticated',
         'rest_framework.permissions.AllowAny',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',  # Rate limiting for anonymous users
@@ -221,10 +225,7 @@ REST_FRAMEWORK = {
 
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 25,
-
 }
-
-
 
 # Channels Settings
 CHANNEL_LAYERS = {
@@ -237,6 +238,15 @@ CHANNEL_LAYERS = {
         #     "expiry": 10,  # 🔹 Reduce expiry to clear old messages faster
         # },
     },
+}
+
+# DRF Spectacular
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'CS GlobalCall',
+    'DESCRIPTION': 'Control system of GlobalCell',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
 }
 
 # Stripe

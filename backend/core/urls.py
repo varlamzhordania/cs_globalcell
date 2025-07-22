@@ -19,21 +19,32 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 # from django.conf.urls.i18n import i18n_patterns # Wrap whole urls patterns to add translation to all urls
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from .views import set_language
 
 urlpatterns = [
-    path('', include('account.urls', namespace='account')),
+    path('api/v1/account/', include('account.v1.urls', namespace='v1-account')),
+    path('api/v1/call/', include('call.v1.urls', namespace='v1-call')),
     path('admin/', admin.site.urls),
 
 ]
 
 urlpatterns += [
     path("setlang/", set_language, name="set_language"),
-    # path('api-auth/', include('rest_framework.urls')),
+    path('api-auth/', include('rest_framework.urls')),
     # re_path(r'^rosetta/', include('rosetta.urls')),
     # path('hijack/', include('hijack.urls')),
     # path("ckeditor5/", include('django_ckeditor_5.urls')),
+
+    # YOUR PATTERNS
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # Optional UI:
+    path(
+        'api/schema/docs/',
+        SpectacularSwaggerView.as_view(url_name='schema'),
+        name='documentation'
+    ),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,6 +1,7 @@
 from django.urls import path
 
-app_name = 'account'
+app_name = "websocket"
 
 urlpatterns = [
+
 ]
